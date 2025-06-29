@@ -100,7 +100,8 @@ INSERT INTO motorcycle (code, model, engine_power, fuel_type, weight, price) VAL
     (4, 'SoloMoto', 77, 'Gasoline', 210.00, 104.00);
 ЗАДАНИЕ:
 1)Найдите модели и цены всех имеющихся в продаже ТС (любого типа) производителя Multi.
-2)Найдите производителя, выпускающего легковые автомобили, но не грузовики. */
+2)Найдите производителя, выпускающего легковые автомобили, но не грузовики.
+3)Найдите производителей легковых авто с мощностью двигателя не менее 700 лошадиных сил. Вывести: maker.*/
 SELECT model, price FROM (
   SELECT m.model,maker,m.price FROM motorcycle AS m
   INNER JOIN vehicle AS v ON m.model=v.model
@@ -114,8 +115,12 @@ WHERE maker = 'Multi';
 /*===========================================*/
 SELECT maker FROM vehicle as v
 INNER JOIN car on v.model=car.model 
-where v.maker not in 
+WHERE v.maker not in 
     (
     SELECT maker FROM vehicle as v
     INNER JOIN truck as t on v.model=t.model 
     );
+/*===========================================*/
+SELECT maker FROM vehicle as v
+INNER JOIN car on v.model=car.model
+WHERE engine_power>=700;
