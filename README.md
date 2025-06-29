@@ -10,7 +10,7 @@
 |--------------------------|--------------------------------------------------------------------------|
 | [date-calculations](date-calculations/)       | Функции для работы с датами и временем                                  |
 | [functions_and_procedures](functions_and_procedures/) | Пользовательские функции и хранимые процедуры                         |
-| [join_cte_query](join_cte_query/)       | Примеры различных запросов с JOIN , CTE, UNION  и ПОДЗАПРОСЫ                                |
+| [join_cte_query](join_cte_query/)       | Примеры различных запросов с JOIN , CTE, UNION  и SUBQUERY                                |
 | [trigger](trigger/)               | Триггеры для автоматизации операций в БД                              |
 | [window-functions](window-functions/)     | Примеры использования оконных функций                                |
 
