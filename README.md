@@ -1,5 +1,7 @@
 # sql-analyst-portfolio
-# SQL Utilities Repository
+# SQL КАТАЛОГ
+отдельно завел по CLICKHOUSE, туда выкладываю только специфические запросы и функции
+https://github.com/ted-d/sql/tree/main
 
 Каталог полезных SQL-скриптов, функций и процедур для работы с базами данных.
 
