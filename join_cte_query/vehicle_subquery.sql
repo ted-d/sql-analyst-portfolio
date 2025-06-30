@@ -104,7 +104,8 @@ INSERT INTO motorcycle (code, model, engine_power, fuel_type, weight, price) VAL
 3)Найдите производителей легковых авто с мощностью двигателя не менее 700 лошадиных сил. Вывести: maker.
 4)Найдите мощности двигателей, совпадающих у двух и более мотоциклов. Вывести: engine_power
 5)Найдите производителей самых дешевых электрических (Electric) мотоциклов. Вывести: maker, price. 
-6)Найдите производителей, которые производили бы как легковые автомобили с мощностью двигателя не менее 300 лошадиных сил, так и грузовики с мощностью двигателя не менее 300 лошадиных сил. Вывести: maker.*/
+6)Найдите производителей, которые производили бы как легковые автомобили с мощностью двигателя не менее 300 лошадиных сил, так и грузовики с мощностью двигателя не менее 300 лошадиных сил. Вывести: maker.
+7)Найдите производителей мотоциклов, которые производят легковые автомобили, с наименьшей мощностью двигателя и с самым большим количеством мест среди всех легковых автомобилей. Вывести: maker*/
 SELECT model, price FROM (
   SELECT m.model,maker,m.price FROM motorcycle AS m
   INNER JOIN vehicle AS v ON m.model=v.model
@@ -115,7 +116,7 @@ UNION
   SELECT c.model,maker,c.price FROM car AS c
   INNER JOIN vehicle AS v on c.model=v.model) AS big
 WHERE maker = 'Multi';
-/*===========================================*/
+/*==================2======================*/
 SELECT maker FROM vehicle as v
 INNER JOIN car on v.model=car.model 
 WHERE v.maker not in 
@@ -123,15 +124,15 @@ WHERE v.maker not in
     SELECT maker FROM vehicle as v
     INNER JOIN truck as t on v.model=t.model 
     );
-/*===========================================*/
+/*===================3=====================*/
 SELECT maker FROM vehicle as v
 INNER JOIN car on v.model=car.model
 WHERE engine_power>=700;
-/*===========================================*/
+/*===================4=====================*/
 SELECT engine_power FROM motorcycle
 GROUP BY engine_power
 HAVING COUNT(*)=2;
-/*===========================================*/
+/*===================5=====================*/
 WITH t1 as (
     SELECT model,price FROM motorcycle 
     where price =
@@ -141,7 +142,7 @@ WITH t1 as (
 )
 SELECT maker, price FROM vehicle as v
 INNER JOIN t1 on v.model=t1.model;
-/*===========================================*/
+/*===================6======================*/
 WITH t1 as(
     SELECT maker FROM vehicle 
     WHERE model in 
@@ -154,3 +155,21 @@ WITH t1 as(
     )
 SELECT t1.maker FROM t1 
 INNER JOIN t2 on t1.maker=t2.maker;     
+/*====================7=====================*/
+WITH t1 as (
+    SELECT maker FROM vehicle as v 
+    INNER JOIN car on v.model =car.model
+    WHERE seats in (
+                    select max(seats) FROM car 
+                    )
+    union
+    SELECT maker from vehicle as v
+    INNER JOIN motorcycle as m on m.model = v.model
+    WHERE engine_power = (
+                         SELECT min(engine_power) FROM motorcycle)
+                         )
+SELECT maker FROM t1 
+WHERE maker not in (
+    select maker FROM  vehicle as v 
+    INNER JOIN truck as t on v.model=t.model
+    ) ;
