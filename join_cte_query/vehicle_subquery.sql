@@ -102,7 +102,8 @@ INSERT INTO motorcycle (code, model, engine_power, fuel_type, weight, price) VAL
 1)Найдите модели и цены всех имеющихся в продаже ТС (любого типа) производителя Multi.
 2)Найдите производителя, выпускающего легковые автомобили, но не грузовики.
 3)Найдите производителей легковых авто с мощностью двигателя не менее 700 лошадиных сил. Вывести: maker.
-4)Найдите мощности двигателей, совпадающих у двух и более мотоциклов. Вывести: engine_power*/
+4)Найдите мощности двигателей, совпадающих у двух и более мотоциклов. Вывести: engine_power
+5)Найдите производителей самых дешевых электрических (Electric) мотоциклов. Вывести: maker, price. */
 SELECT model, price FROM (
   SELECT m.model,maker,m.price FROM motorcycle AS m
   INNER JOIN vehicle AS v ON m.model=v.model
@@ -129,4 +130,13 @@ WHERE engine_power>=700;
 SELECT engine_power FROM motorcycle
 GROUP BY engine_power
 HAVING COUNT(*)=2;
-
+/*===========================================*/
+WITH t1 as (
+    SELECT model,price FROM motorcycle 
+    where price =
+        (
+        SELECT  min(price) FROM motorcycle
+        )
+)
+SELECT maker, price FROM vehicle as v
+INNER JOIN t1 on v.model=t1.model;
