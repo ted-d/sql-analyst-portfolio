@@ -103,7 +103,8 @@ INSERT INTO motorcycle (code, model, engine_power, fuel_type, weight, price) VAL
 2)Найдите производителя, выпускающего легковые автомобили, но не грузовики.
 3)Найдите производителей легковых авто с мощностью двигателя не менее 700 лошадиных сил. Вывести: maker.
 4)Найдите мощности двигателей, совпадающих у двух и более мотоциклов. Вывести: engine_power
-5)Найдите производителей самых дешевых электрических (Electric) мотоциклов. Вывести: maker, price. */
+5)Найдите производителей самых дешевых электрических (Electric) мотоциклов. Вывести: maker, price. 
+6)Найдите производителей, которые производили бы как легковые автомобили с мощностью двигателя не менее 300 лошадиных сил, так и грузовики с мощностью двигателя не менее 300 лошадиных сил. Вывести: maker.*/
 SELECT model, price FROM (
   SELECT m.model,maker,m.price FROM motorcycle AS m
   INNER JOIN vehicle AS v ON m.model=v.model
@@ -140,3 +141,16 @@ WITH t1 as (
 )
 SELECT maker, price FROM vehicle as v
 INNER JOIN t1 on v.model=t1.model;
+/*===========================================*/
+WITH t1 as(
+    SELECT maker FROM vehicle 
+    WHERE model in 
+        (SELECT model FROM truck WHERE engine_power >= 300)
+    ),
+    t2 as (
+    SELECT maker FROM vehicle 
+        WHERE model in 
+            (SELECT model FROM car WHERE engine_power >= 300)
+    )
+SELECT t1.maker FROM t1 
+INNER JOIN t2 on t1.maker=t2.maker;     
